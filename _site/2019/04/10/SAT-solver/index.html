@@ -10,9 +10,9 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>About - Wei的博客 | Wei's Blog</title>
+    <title>C++ study note - Wei的博客 | Wei's Blog</title>
     <!--page.title refers to title in current page -->
-    <link rel="canonical" href="http://localhost:4000/about/">
+    <link rel="canonical" href="http://localhost:4000/2019/04/10/SAT-solver/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -218,107 +218,218 @@
     }
     mp3_embed();
     </script>
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/about-wei.jpg')">
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-20190410.png" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/post-20190410.png')
+    }
+</style>
+<header class="intro-header" >
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>About</h1>
-                    <!--<hr class="small">-->
-                    <span class="subheading">Hey, it's Wei here.</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#编程" title="编程">编程</a>
+                        
+                        <a class="tag" href="/tags/#C++" title="C++">C++</a>
+                        
+                    </div>
+                    <h1>C++ study note</h1>
+                    
+                    
+                    <h2 class="subheading"> "A simple implementation of SAT-solver"</h2>
+                    
+                    <span class="meta">Posted by Wei on April 10, 2019</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
-        
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
 
-<!-- USE SIDEBAR -->
     <!-- Post Container -->
-    		<div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-    			<!-- Language Selector -->
-<select onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
-    <option value="0" selected> 中文 Chinese </option>
-    <option value="1"> 英语 English </option>
-</select>
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-<!-- Chinese Version -->
-<div class="zh post-container">
-    <blockquote>
-        写代码，看世界。
-    </blockquote>
+				<blockquote>
+  <p>“stay hungry, stay foolish”</p>
+</blockquote>
 
-</div>
+<h1 id="main-idea">Main idea:</h1>
 
-<!-- English Version -->
-<div class="en post-container">
-    <blockquote>
-        Code and travel.
-    </blockquote>
+<p>brute force</p>
 
-    <p>
-        Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven’t found it yet, keep looking. Don’t settle. As with all matters of the heart, you’ll know when you find it.
-    </p>
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">regex_search</code> extract all occurred variables</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">set</code> delete repeat variables</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">bitset</code> assign bit values in canonical order to all variables</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">map</code> to store corresponding values</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">regex_search</code> find and replace every  internal tuple “|xy” by “0” or “1”, loop until s == “1” or “0”</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">regex_match</code> handle invalid input</p>
+  </li>
+</ul>
 
-    <p>
-    If you want to live your life in a creative way, as an artist, you have to not look back too much. You have to be willing to take whatever you’ve done and whoever you were and throw them away.
-    </p>
+<h1 id="notes">Notes:</h1>
 
-    <p style="text-align:right;">
-    -- Steve Jobs
-    </p>
+<ul>
+  <li>
+    <p>In <code class="highlighter-rouge">regex </code> <code class="highlighter-rouge">\\w</code> represents one letter rather than <code class="highlighter-rouge">\w</code>. Remmber double slash, same to other special symbols.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">regex_match</code> matches whole string with regular expression, but <code class="highlighter-rouge">regex_search</code> only returns first matched string, if we need to find all, it’s not simple like <code class="highlighter-rouge">re.findall</code> in <code class="highlighter-rouge">python</code>, rather <code class="highlighter-rouge">while</code> with arguments <code class="highlighter-rouge">start</code> and <code class="highlighter-rouge">end</code> iterator loops.</p>
+  </li>
+  <li>
+    <p>Iterator plays an important role in <code class="highlighter-rouge">C++</code> . Not like <code class="highlighter-rouge">python</code>, we could <code class="highlighter-rouge">for … in</code> to go through in different data structures like <code class="highlighter-rouge">set</code>, <code class="highlighter-rouge">map</code> and so on. In <code class="highlighter-rouge">C++</code> the only way to go through a set is <code class="highlighter-rouge">std::map&lt;char, int&gt;iterator iter</code> then loop it from <code class="highlighter-rouge">map.begin()</code> to <code class="highlighter-rouge">map.end()</code>. <code class="highlighter-rouge">iter-&gt;first</code> refers to key, <code class="highlighter-rouge">iter-&gt;second</code> refers to value. Each iterator refers to one bit of original map or string, so that we could execute some bit operations on them.</p>
 
-</div>
-
-<!-- Handle Language Change -->
-<script type="text/javascript">
-    var $zh = document.querySelector(".zh");
-    var $en = document.querySelector(".en");
-    function onLanChange(index){
-        if(index == 0){
-            $zh.style.display = "block";
-            $en.style.display = "none";
-        }else{
-            $en.style.display = "block";
-            $zh.style.display = "none";
-        }
-    }
-    onLanChange(0);
-</script>
+    <p>link: <a href="https://github.com/desAweis/programming-challenge/tree/master/SAT-solver">SAT-solver</a></p>
+  </li>
+</ul>
 
 
 
+                <hr>
 
-<!-- 多说评论框 start -->
-<div class="comment">
-    <div class="ds-thread"
-    
-        data-thread-id="1187623191091085319"
-    
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share"
+                    style="text-align: right"
+                    data-thread-key="/2019/04/10/SAT-solver"
+                    data-title="C++ study note"
+                    data-url="http://localhost:4000/2019/04/10/SAT-solver/"
+                    data-images="http://localhost:4000/img/post-20190410.png"
+                    data-content="
+  “stay hungry, stay foolish”
 
-    data-title="About"
-    data-url="http://localhost:4000/about/"></div>
-</div>
-<!-- 多说评论框 end -->
 
-<!-- Duoshuo hacking -->
-<input id="dsUser" type="hidden" value="huxblog"  />
+Main idea:
+
+brute force
+
+
+  
+    regex_searc... | Wei的博客 | Wei's Blog " >
+                    <div class="ds-share-inline">
+                      <ul  class="ds-share-icons-16">
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/04/09/RecordSth/" data-toggle="tooltip" data-placement="top" title="Record Something">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="/2019/04/10/SAT-solver"
+                        data-title="C++ study note"
+                        data-url="http://localhost:4000/2019/04/10/SAT-solver/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="#">Foo</a></li>
+                    
+                        <li><a href="#">Bar</a></li>
+                    
+                        <li><a href="#">Example Friends</a></li>
+                    
+                        <li><a href="#">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
 
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
-    // dynamic User hacking by Hux
-    var _user = document.getElementById('dsUser').value;
+    // dynamic User by Hux
+    var _user = 'huxblog';
+
     // duoshuo comment query.
     var duoshuoQuery = {short_name: _user };
     (function() {
@@ -336,115 +447,41 @@
 
 
 
-    		</div>
-    <!-- Sidebar Container -->
-            <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
-                <!-- Featured Tags -->
-                
-                <section>
-                    <hr class="hidden-sm hidden-xs">
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                    </div>
-                </section>
-                
 
-                <!-- Short About -->
-                <section class="visible-md visible-lg">
-                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
-                    <div class="short-about">
-                        
-                            <img src="/img/wei.jpg" />
-                        
-                        
-                            <p>尽人事，听天命。</p>
-                        
-                        <!-- SNS Link -->
-                        <ul class="list-inline">
-                            
-                            
-                            <li>
-                                <a href="https://twitter.com/desaweis5432">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="http://weibo.com/desaweis">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://www.facebook.com/desaweis">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://github.com/desAweis">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </section>
-                <!-- Friends Blog -->
-                
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
-                    
-                        <li><a href="#">Foo</a></li>
-                    
-                        <li><a href="#">Bar</a></li>
-                    
-                        <li><a href="#">Example Friends</a></li>
-                    
-                        <li><a href="#">It helps SEO</a></li>
-                    
-                </ul>
-                
-    		</div>
-        
-	</div>
-</div>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
 
 

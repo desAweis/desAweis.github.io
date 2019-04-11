@@ -283,6 +283,9 @@
 
 <p>昨天晚上去上<code class="highlighter-rouge">Zumba</code>课，比上次多了很多新面孔，其中有两个中国妹子。老师<code class="highlighter-rouge">Adrian Copello Guilarte</code>是黑人，来自古巴，不得不说上帝是公平的，这个种族经历了远多于其他种族的灾难，有些伤痛甚至现在也无法痊愈，非洲仍然活在水深火热之中，但是，黑人的身体素质和音乐舞蹈天赋真的特棒。老师的肌肉线条很完美，舞蹈动作干净利落有力度，四肢协调，有美感。说到<code class="highlighter-rouge">Zumba</code>舞蹈，每个小节上来先练步法，然后加上上身动作。其中步法在我看来可以说是非常诡异了，一般是四拍，但是每个小节的动作全然不同，比如说，左左右右-&gt;左右左右，类似这样无规律循环，我总是迈错步子，因为不知道下一步迈向何处，经常是左脚刚向左出，发现错了，又改向右出，特别不协调哈哈。跳得不好，但是活动筋骨，放松心情还是相当不错的。整个50分钟下来，浑身是汗，很舒服，整个身体很柔软，站姿也更优雅了。班上的小姐姐很多，算我只有两个男生，身材都挺好的，可能大家都是新手，感觉跳得都没有美感，我理解的<code class="highlighter-rouge">Zumba</code>应该是动作有力度，收放自如，这样看起来才会热情洋溢，充满活力，老师是跳得zhui好的，真羡慕那样的身材。我健身还有两个月就满两年了，肌肉线条初见形状，但是离老师那样健美的身材还是差太多了…特别是腹肌。</p>
 
+<pre><code class="language-Html">&lt;p&gt;http://yizhibi.6chemical.com/lucyBlog/xianrendege.mp3&lt;/p&gt;
+</code></pre>
+
 <p>——2019.04.09 Tue</p>
 
 
@@ -637,11 +640,104 @@
 
     
 
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
-
-
+    <!-- Image to hack wechat -->
+    <img src="/img/icon_wechat.png" width="0" height="0" />
+    <!-- Migrate from head to bottom, no longer block render and still work -->
+    <script src="/js/jquery.min.js"></script>
+    <style>
+    .videoWrapper {
+        position: relative;
+        padding-bottom: 56.333%;
+        height: 0;
+        background: black;
+    }
+    .videoWrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }    
+    </style>
+    
+    <script>
+    function get_youtube_id(url) {
+        var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+        return (url.match(p)) ? RegExp.$1 : false;
+    }
+    function vimeo_embed(url,el) {
+        var id = false;
+        $.ajax({
+          url: 'https://vimeo.com/api/oembed.json?url='+url,
+          async: true,
+          success: function(response) {
+            if(response.video_id) {
+              id = response.video_id;
+              if(url.indexOf('autoplay=1') !== -1) var autoplay=1; else var autoplay=0;
+              if(url.indexOf('loop=1') !== -1) var loop=1; else var loop=0;
+              var theInnerHTML = '<div class="videoWrapper"><iframe src="https://player.vimeo.com/video/'+id+'/?byline=0&title=0&portrait=0';
+              if(autoplay==1) theInnerHTML += '&autoplay=1';
+              if(loop==1) theInnerHTML += '&loop=1';
+              theInnerHTML += '" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>'; 
+              el.innerHTML = theInnerHTML;
+            }
+          }
+        });
+    }
+    function video_embed() {
+        var p = document.getElementsByTagName('p');
+        for(var i = 0; i < p.length; i++) {
+            //check if this is an external url (that starts with https:// or http://
+            if (p[i].innerHTML.indexOf("http://") == 0 ||
+                p[i].innerHTML.indexOf("https://") == 0) {
+                var youtube_id = get_youtube_id(p[i].innerHTML);
+                if(youtube_id) {
+                    if(p[i].innerHTML.indexOf('autoplay=1') !== -1) var autoplay=1; else var autoplay=0;
+                    if(p[i].innerHTML.indexOf('loop=1') !== -1) var loop=1; else var loop=0;
+                    var theInnerHTML = '<div class="videoWrapper"><iframe width="720" height="420" src="https://www.youtube.com/embed/' + youtube_id + '?rel=0&showinfo=0';
+                    if(autoplay==1) theInnerHTML += '&autoplay=1';
+                    if(loop==1) theInnerHTML += '&loop=1&playlist='+youtube_id+'&version=3';
+                    theInnerHTML += '" frameborder="0" allowfullscreen></iframe></div>';
+                    p[i].innerHTML = theInnerHTML;
+                }
+                if(p[i].innerHTML.indexOf('vimeo.com') !== -1) {
+                    //ask vimeo for the id and place the embed
+                    vimeo_embed(p[i].innerHTML,p[i]);
+                }
+            }
+        }
+    }
+    video_embed();
+    
+    function mp3_embed() {
+        var p = document.getElementsByTagName('p');
+        for(var i = 0; i < p.length; i++) {
+            if(p[i].innerHTML.indexOf('.mp3') !== -1) {
+                var str = p[i].innerHTML.split('?');
+                if(str.length == 1) str[1] = '';
+                var str1 = str[1];
+                str1 = str1.replace('&','').replace('&','');
+                str1 = str1.replace('autoplay=1','').replace('autoplay=0','');
+                str1 = str1.replace('loop=1','').replace('loop=0','');
+                str1 = str1.replace('controls=0','').replace('controls=1','');
+    
+                if (str[0].lastIndexOf('.mp3', str[0].length - 4) === str[0].length - 4 && str1.length == 0) {
+                    if(str[1].indexOf('autoplay=1') !== -1) var autoplay=1; else var autoplay=0;
+                    if(str[1].indexOf('loop=1') !== -1) var loop=1; else var loop=0;
+                    if(str[1].indexOf('controls=0') !== -1) var controls=0; else var controls=1;
+                    var newInnerHTML = '<audio';
+                    if(autoplay==1) newInnerHTML += ' autoplay';
+                    if(loop==1) newInnerHTML += ' loop';
+                    if(controls==1) newInnerHTML += ' controls';
+                    newInnerHTML += '><source src="'+str[0]+'" type="audio/mpeg">Your browser does not support the audio element.</audio>';
+                    p[i].innerHTML = newInnerHTML;
+                }
+            }
+        }
+    }
+    mp3_embed();
+    </script>
 </body>
 
 </html>

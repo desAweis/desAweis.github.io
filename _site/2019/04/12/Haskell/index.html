@@ -175,7 +175,7 @@
 
 <hr />
 
-<p>###Currying</p>
+<h3 id="currying">Currying</h3>
 
 <ul>
   <li>In type declarations <code class="highlighter-rouge">-&gt;</code> always associates with right side. This means that cosider the right part as one entirety, e.g. <code class="highlighter-rouge">plus :: Int -&gt; Int -&gt; Int</code>  stands for <code class="highlighter-rouge">Int -&gt; (Int -&gt; Int)</code> , one evaluate plus 2 as a function with type <code class="highlighter-rouge">Int -&gt; Int</code>  that adds 2 to input integer x.</li>
@@ -184,7 +184,7 @@
 
 <hr />
 
-<p>###[Int] (x)</p>
+<h3 id="int-and-x">[Int] and (x)</h3>
 
 <p>on the left side of <code class="highlighter-rouge">=</code> inside function declaration:</p>
 
@@ -198,6 +198,8 @@
 <ul>
   <li><code class="highlighter-rouge">x:function (xs)</code> already stands for a <code class="highlighter-rouge">[Int]</code>, adding <code class="highlighter-rouge">()</code> outside is not allowed, but <code class="highlighter-rouge">(xs)</code> must be in <code class="highlighter-rouge">()</code> to represent <code class="highlighter-rouge">[Int]</code>.</li>
 </ul>
+
+<hr />
 
 <h3 id="design-idea">Design idea</h3>
 
@@ -221,10 +223,10 @@
 
 
 
-###Currying
+Currying
 
 
-  In type declarations -&... | Wei的博客 | Wei's Blog " >
+  In type declarations -&gt;... | Wei的博客 | Wei's Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>

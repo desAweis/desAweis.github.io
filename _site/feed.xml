@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 13 Apr 2019 00:44:48 +0200</pubDate>
-    <lastBuildDate>Sat, 13 Apr 2019 00:44:48 +0200</lastBuildDate>
+    <pubDate>Sat, 13 Apr 2019 00:51:54 +0200</pubDate>
+    <lastBuildDate>Sat, 13 Apr 2019 00:51:54 +0200</lastBuildDate>
     <generator>Jekyll v3.7.4</generator>
     
       <item>
@@ -15,7 +15,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;###Currying&lt;/p&gt;
+&lt;h3 id=&quot;currying&quot;&gt;Currying&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;In type declarations &lt;code class=&quot;highlighter-rouge&quot;&gt;-&amp;gt;&lt;/code&gt; always associates with right side. This means that cosider the right part as one entirety, e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;plus :: Int -&amp;gt; Int -&amp;gt; Int&lt;/code&gt;  stands for &lt;code class=&quot;highlighter-rouge&quot;&gt;Int -&amp;gt; (Int -&amp;gt; Int)&lt;/code&gt; , one evaluate plus 2 as a function with type &lt;code class=&quot;highlighter-rouge&quot;&gt;Int -&amp;gt; Int&lt;/code&gt;  that adds 2 to input integer x.&lt;/li&gt;
@@ -24,7 +24,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;###[Int] (x)&lt;/p&gt;
+&lt;h3 id=&quot;int-and-x&quot;&gt;[Int] and (x)&lt;/h3&gt;
 
 &lt;p&gt;on the left side of &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; inside function declaration:&lt;/p&gt;
 
@@ -38,6 +38,8 @@
 &lt;ul&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;x:function (xs)&lt;/code&gt; already stands for a &lt;code class=&quot;highlighter-rouge&quot;&gt;[Int]&lt;/code&gt;, adding &lt;code class=&quot;highlighter-rouge&quot;&gt;()&lt;/code&gt; outside is not allowed, but &lt;code class=&quot;highlighter-rouge&quot;&gt;(xs)&lt;/code&gt; must be in &lt;code class=&quot;highlighter-rouge&quot;&gt;()&lt;/code&gt; to represent &lt;code class=&quot;highlighter-rouge&quot;&gt;[Int]&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;hr /&gt;
 
 &lt;h3 id=&quot;design-idea&quot;&gt;Design idea&lt;/h3&gt;
 

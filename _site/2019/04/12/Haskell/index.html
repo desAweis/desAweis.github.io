@@ -10,9 +10,9 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.jpg">
 
-    <title>About - Wei的博客 | Wei's Blog</title>
+    <title>Haskell Note - Wei的博客 | Wei's Blog</title>
     <!--page.title refers to title in current page -->
-    <link rel="canonical" href="http://localhost:4000/about/">
+    <link rel="canonical" href="http://localhost:4000/2019/04/12/Haskell/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -126,107 +126,209 @@
 </script>
 
     
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/about-wei.jpg')">
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-20190412.png" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/post-20190412.png')
+    }
+</style>
+<header class="intro-header" >
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>About</h1>
-                    <!--<hr class="small">-->
-                    <span class="subheading">Hey, it's Wei here.</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#学习" title="学习">学习</a>
+                        
+                        <a class="tag" href="/tags/#Haskell" title="Haskell">Haskell</a>
+                        
+                    </div>
+                    <h1>Haskell Note</h1>
+                    
+                    
+                    <h2 class="subheading"> "about currying and [Int] (x) arguments"</h2>
+                    
+                    <span class="meta">Posted by Wei on April 12, 2019</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
-        
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
 
-<!-- USE SIDEBAR -->
     <!-- Post Container -->
-    		<div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-    			<!-- Language Selector -->
-<select onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
-    <option value="0" selected> 中文 Chinese </option>
-    <option value="1"> 英语 English </option>
-</select>
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-<!-- Chinese Version -->
-<div class="zh post-container">
-    <blockquote>
-        写代码，看世界。
-    </blockquote>
+				<p>Thinking is cheap, coding is hard.</p>
 
-</div>
+<hr />
 
-<!-- English Version -->
-<div class="en post-container">
-    <blockquote>
-        Code and travel.
-    </blockquote>
+<p>###Currying</p>
 
-    <p>
-        Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven’t found it yet, keep looking. Don’t settle. As with all matters of the heart, you’ll know when you find it.
-    </p>
+<ul>
+  <li>In type declarations <code class="highlighter-rouge">-&gt;</code> always associates with right side. This means that cosider the right part as one entirety, e.g. <code class="highlighter-rouge">plus :: Int -&gt; Int -&gt; Int</code>  stands for <code class="highlighter-rouge">Int -&gt; (Int -&gt; Int)</code> , one evaluate plus 2 as a function with type <code class="highlighter-rouge">Int -&gt; Int</code>  that adds 2 to input integer x.</li>
+  <li><code class="highlighter-rouge">[Bool] -&gt; (Bool -&gt; Int) -&gt; [Int]</code> stands for taking a function that has the type <code class="highlighter-rouge">Bool -&gt; Int</code> as input. This is also possible in type declaration.</li>
+</ul>
 
-    <p>
-    If you want to live your life in a creative way, as an artist, you have to not look back too much. You have to be willing to take whatever you’ve done and whoever you were and throw them away.
-    </p>
+<hr />
 
-    <p style="text-align:right;">
-    -- Steve Jobs
-    </p>
+<p>###[Int] (x)</p>
 
-</div>
+<p>on the left side of <code class="highlighter-rouge">=</code> inside function declaration:</p>
 
-<!-- Handle Language Change -->
-<script type="text/javascript">
-    var $zh = document.querySelector(".zh");
-    var $en = document.querySelector(".en");
-    function onLanChange(index){
-        if(index == 0){
-            $zh.style.display = "block";
-            $en.style.display = "none";
-        }else{
-            $en.style.display = "block";
-            $zh.style.display = "none";
-        }
-    }
-    onLanChange(0);
-</script>
+<ul>
+  <li><code class="highlighter-rouge">(x)</code> could represent <code class="highlighter-rouge">[]</code>, i.e. null.</li>
+  <li><code class="highlighter-rouge">(x:xs)</code> could take the first element of <code class="highlighter-rouge">[Int]</code>  as x, but <code class="highlighter-rouge">[Int]</code> can’t be null.</li>
+</ul>
+
+<p>on the right side of <code class="highlighter-rouge">=</code> inside function declaration:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">x:function (xs)</code> already stands for a <code class="highlighter-rouge">[Int]</code>, adding <code class="highlighter-rouge">()</code> outside is not allowed, but <code class="highlighter-rouge">(xs)</code> must be in <code class="highlighter-rouge">()</code> to represent <code class="highlighter-rouge">[Int]</code>.</li>
+</ul>
+
+<h3 id="design-idea">Design idea</h3>
+
+<ul>
+  <li>Before coding one must come up with a specfic functions nesting pipeline. Then implement from innermost function to outermost. Every function can be tested seperately, once tested successful seperately, there won’t be any bugs while combination. This is one of the advantages of functional programming.</li>
+</ul>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share"
+                    style="text-align: right"
+                    data-thread-key="/2019/04/12/Haskell"
+                    data-title="Haskell Note"
+                    data-url="http://localhost:4000/2019/04/12/Haskell/"
+                    data-images="http://localhost:4000/img/post-20190412.png"
+                    data-content="Thinking is cheap, coding is hard.
 
 
 
+###Currying
 
-<!-- 多说评论框 start -->
-<div class="comment">
-    <div class="ds-thread"
-    
-        data-thread-id="1187623191091085319"
-    
 
-    data-title="About"
-    data-url="http://localhost:4000/about/"></div>
-</div>
-<!-- 多说评论框 end -->
+  In type declarations -&... | Wei的博客 | Wei's Blog " >
+                    <div class="ds-share-inline">
+                      <ul  class="ds-share-icons-16">
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
 
-<!-- Duoshuo hacking -->
-<input id="dsUser" type="hidden" value="huxblog"  />
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/04/10/SAT-solver/" data-toggle="tooltip" data-placement="top" title="C++ study note">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="/2019/04/12/Haskell"
+                        data-title="Haskell Note"
+                        data-url="http://localhost:4000/2019/04/12/Haskell/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#学习" title="学习" rel="2">
+                                    学习
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="#">Foo</a></li>
+                    
+                        <li><a href="#">Bar</a></li>
+                    
+                        <li><a href="#">Example Friends</a></li>
+                    
+                        <li><a href="#">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
 
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
-    // dynamic User hacking by Hux
-    var _user = document.getElementById('dsUser').value;
+    // dynamic User by Hux
+    var _user = 'huxblog';
+
     // duoshuo comment query.
     var duoshuoQuery = {short_name: _user };
     (function() {
@@ -244,122 +346,41 @@
 
 
 
-    		</div>
-    <!-- Sidebar Container -->
-            <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
-                <!-- Featured Tags -->
-                
-                <section>
-                    <hr class="hidden-sm hidden-xs">
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                        
-                            
-                        
-                            
-                        
-                            
-                                <a href="/tags/#学习" title="学习" rel="2">
-                                    学习
-                                </a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                    </div>
-                </section>
-                
 
-                <!-- Short About -->
-                <section class="visible-md visible-lg">
-                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
-                    <div class="short-about">
-                        
-                            <img src="/img/wei.jpg" />
-                        
-                        
-                            <p>Talk is cheap, show me the code.
-尽人事，听天命。</p>
-                        
-                        <!-- SNS Link -->
-                        <ul class="list-inline">
-                            
-                            
-                            <li>
-                                <a href="https://twitter.com/desaweis5432">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="http://weibo.com/desaweis">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://www.facebook.com/desaweis">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://github.com/desAweis">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </section>
-                <!-- Friends Blog -->
-                
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
-                    
-                        <li><a href="#">Foo</a></li>
-                    
-                        <li><a href="#">Bar</a></li>
-                    
-                        <li><a href="#">Example Friends</a></li>
-                    
-                        <li><a href="#">It helps SEO</a></li>
-                    
-                </ul>
-                
-    		</div>
-        
-	</div>
-</div>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
 
 

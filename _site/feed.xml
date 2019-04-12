@@ -5,9 +5,56 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 11 Apr 2019 21:43:24 +0200</pubDate>
-    <lastBuildDate>Thu, 11 Apr 2019 21:43:24 +0200</lastBuildDate>
+    <pubDate>Sat, 13 Apr 2019 00:44:48 +0200</pubDate>
+    <lastBuildDate>Sat, 13 Apr 2019 00:44:48 +0200</lastBuildDate>
     <generator>Jekyll v3.7.4</generator>
+    
+      <item>
+        <title>Haskell Note</title>
+        <description>&lt;p&gt;Thinking is cheap, coding is hard.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;###Currying&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;In type declarations &lt;code class=&quot;highlighter-rouge&quot;&gt;-&amp;gt;&lt;/code&gt; always associates with right side. This means that cosider the right part as one entirety, e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;plus :: Int -&amp;gt; Int -&amp;gt; Int&lt;/code&gt;  stands for &lt;code class=&quot;highlighter-rouge&quot;&gt;Int -&amp;gt; (Int -&amp;gt; Int)&lt;/code&gt; , one evaluate plus 2 as a function with type &lt;code class=&quot;highlighter-rouge&quot;&gt;Int -&amp;gt; Int&lt;/code&gt;  that adds 2 to input integer x.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[Bool] -&amp;gt; (Bool -&amp;gt; Int) -&amp;gt; [Int]&lt;/code&gt; stands for taking a function that has the type &lt;code class=&quot;highlighter-rouge&quot;&gt;Bool -&amp;gt; Int&lt;/code&gt; as input. This is also possible in type declaration.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;###[Int] (x)&lt;/p&gt;
+
+&lt;p&gt;on the left side of &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; inside function declaration:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(x)&lt;/code&gt; could represent &lt;code class=&quot;highlighter-rouge&quot;&gt;[]&lt;/code&gt;, i.e. null.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(x:xs)&lt;/code&gt; could take the first element of &lt;code class=&quot;highlighter-rouge&quot;&gt;[Int]&lt;/code&gt;  as x, but &lt;code class=&quot;highlighter-rouge&quot;&gt;[Int]&lt;/code&gt; can’t be null.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;on the right side of &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; inside function declaration:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;x:function (xs)&lt;/code&gt; already stands for a &lt;code class=&quot;highlighter-rouge&quot;&gt;[Int]&lt;/code&gt;, adding &lt;code class=&quot;highlighter-rouge&quot;&gt;()&lt;/code&gt; outside is not allowed, but &lt;code class=&quot;highlighter-rouge&quot;&gt;(xs)&lt;/code&gt; must be in &lt;code class=&quot;highlighter-rouge&quot;&gt;()&lt;/code&gt; to represent &lt;code class=&quot;highlighter-rouge&quot;&gt;[Int]&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;design-idea&quot;&gt;Design idea&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Before coding one must come up with a specfic functions nesting pipeline. Then implement from innermost function to outermost. Every function can be tested seperately, once tested successful seperately, there won’t be any bugs while combination. This is one of the advantages of functional programming.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Fri, 12 Apr 2019 14:00:00 +0200</pubDate>
+        <link>http://localhost:4000/2019/04/12/Haskell/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/04/12/Haskell/</guid>
+        
+        <category>学习</category>
+        
+        <category>Haskell</category>
+        
+        
+      </item>
     
       <item>
         <title>C++ study note</title>
@@ -80,11 +127,15 @@
 
 &lt;p&gt;春天来了，天气终于好了起来，每天都是艳阳天，心情也跟着好了起来。&lt;/p&gt;
 
+&lt;hr /&gt;
+
 &lt;h1 id=&quot;学习&quot;&gt;学习&lt;/h1&gt;
 
 &lt;p&gt;今天上午又去了趟ZPA，终于把MaLo成绩登上来了。上上学期考的第二次考试，但是忘记注册了，考场现填的表，助教把成绩发到ZPA了一直没有录到系统里，真心吐槽德国的效率低下，但是工作时间短，任务多，条件又宽松，私心以为像我这样忘记an考试了，但还是让我考了，真的很宽容，工作效率低一点完全可以理解。无论如何，登上了成绩，标志着所有补课全部通过，可以注册毕设了，进入master最后一个阶段。负责我们专业的&lt;code class=&quot;highlighter-rouge&quot;&gt;Daniel Babarello&lt;/code&gt;人超nice啊，耐心认真，赞一个👍&lt;/p&gt;
 
 &lt;p&gt;上学期的两门课还没出成绩，考第二次就是很坑啊，改卷时间碰上开学，各种事情堆在一起，没时间改卷了，上周三发的找毕设邮件到今天已经第六天了，还在等消息。在德国待时间久了，就得习惯这边的风格，一般等待时间是以周期为单位的。&lt;/p&gt;
+
+&lt;hr /&gt;
 
 &lt;h1 id=&quot;新鲜事&quot;&gt;新鲜事&lt;/h1&gt;
 

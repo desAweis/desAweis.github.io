@@ -1,0 +1,40 @@
+---
+layout:     post
+title:      "Haskell Note"
+subtitle:   " \"about currying and [Int] (x) arguments\""
+date:       2019-04-12 12:00:00
+author:     "Wei"
+header-img: "img/post-20190412.png"
+catalog: true
+tags:
+    - 学习
+    - Haskell
+
+
+---
+
+Thinking is cheap, coding is hard.
+
+---
+
+###Currying
+
+- In type declarations `->` always associates with right side. This means that cosider the right part as one entirety, e.g. `plus :: Int -> Int -> Int`  stands for `Int -> (Int -> Int)` , one evaluate plus 2 as a function with type `Int -> Int`  that adds 2 to input integer x.
+- `[Bool] -> (Bool -> Int) -> [Int]` stands for taking a function that has the type `Bool -> Int` as input. This is also possible in type declaration.
+
+---
+
+###[Int] (x)
+
+on the left side of `=` inside function declaration:
+
+- `(x)` could represent `[]`, i.e. null.
+- `(x:xs)` could take the first element of `[Int]`  as x, but `[Int]` can't be null. 
+
+on the right side of `=` inside function declaration:
+
+- `x:function (xs)` already stands for a `[Int]`, adding `()` outside is not allowed, but `(xs)` must be in `()` to represent `[Int]`.
+
+### Design idea
+
+- Before coding one must come up with a specfic functions nesting pipeline. Then implement from innermost function to outermost. Every function can be tested seperately, once tested successful seperately, there won't be any bugs while combination. This is one of the advantages of functional programming.

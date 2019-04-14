@@ -4,7 +4,7 @@ title:      "Leetcode #5"
 subtitle:   " \"Longest Palindromic Substring\""
 date:       2019-04-14 12:00:00
 author:     "Wei"
-header-img: "img/post-20190414.png"
+header-img: "img/post-20190414.jpg"
 catalog: true
 tags:
     - 学习

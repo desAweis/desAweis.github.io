@@ -44,6 +44,8 @@ Dynamic Planning:
 
 - After determination above if the current substring is palindromic, determin wether `j-i+1` >`maxLen` , if yes, update `maxLen` and the index `start` and `end`.
 
+---
+
 ### C++ code
 
 ```c++

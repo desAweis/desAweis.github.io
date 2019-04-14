@@ -1,0 +1,76 @@
+---
+layout:     post
+title:      "Leetcode #5"
+subtitle:   " \"Longest Palindromic Substring\""
+date:       2019-04-14 12:00:00
+author:     "Wei"
+header-img: "img/post-20190414.png"
+catalog: true
+tags:
+    - 学习
+    - Leetcode
+
+
+
+---
+
+The hard core of programming is algorithms.
+
+---
+
+### Description
+
+Given a string **s**, find the longest palindromic substring in **s**. You may assume that the maximum length of **s** is 1000.
+
+**Example 1:**
+
+```
+Input: "babad"
+Output: "bab"
+Note: "aba" is also a valid answer.
+```
+
+---
+
+### Algorithm
+
+Dynamic Planning:
+
+- Use inner and outer two-layer loop. In outer loop let `i` start from end of input string `s` to forwards. In inner loop let `j` start from `i` to the end.
+- Initialize `start` and `end` to save the index of maximal length of palindromic substring, and `maxLen` to save the maximal length of palindromic substring, and boolean two-dimensional array `palin`. If `substr(i, j-i+1)` is palindromic, `palin[i][j]` is `true`, otherwise `false`.
+- If `s[i]` == `s[j]`  and 
+  - `j-i<=2` , definitely `palin[i][j]` is `true`.
+  - If `j-i>2`, then we need to determine wether `palin[i+1][j-1]` is `true`. Because we loop from end to begin, so `palin[i+1][j-1]` is already set `true`, if it's palindromic. Thus, we can determine in this way.
+
+- After determination above if the current substring is palindromic, determin wether `j-i+1` >`maxLen` , if yes, update `maxLen` and the index `start` and `end`.
+
+### C++ code
+
+```c++
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        if (s.size() <= 1){
+            return s;
+        }
+        int start = 0;
+        int end = 0;
+        int maxLen = 0;
+        bool palin[s.size()][s.size()] = {0};
+        for (int i=s.size()-1;i>=0;i--){
+            for (int j=i;j<s.size();j++){
+                if ((s[i]==s[j])&&(j-i<=2||palin[i+1][j-1])){
+                    palin[i][j] = true;
+                    if (maxLen < j-i+1){
+                        maxLen = j-i+1;
+                        start = i;
+                        end = j;
+                    }
+                }
+            }
+        }
+        return s.substr(start, end - start +1);
+    }
+};
+```
+

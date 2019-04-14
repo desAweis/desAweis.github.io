@@ -4,7 +4,7 @@ title:      "C++ study note"
 subtitle:   " \"A simple implementation of SAT-solver\""
 date:       2019-04-10 12:00:00
 author:     "Wei"
-header-img: "img/post-20190410.png"
+header-img: "img/post-20190410.jpg"
 catalog: true
 tags:
     - 编程

@@ -10,9 +10,9 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.jpg">
 
-    <title>Leetcode #5 - Wei的博客 | Wei's Blog</title>
+    <title>Leetcode #6 - Wei的博客 | Wei's Blog</title>
     <!--page.title refers to title in current page -->
-    <link rel="canonical" href="http://localhost:4000/2019/04/14/Leetcode/">
+    <link rel="canonical" href="http://localhost:4000/2019/04/14/Leetcode6/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -148,10 +148,10 @@
                         <a class="tag" href="/tags/#Leetcode" title="Leetcode">Leetcode</a>
                         
                     </div>
-                    <h1>Leetcode #5</h1>
+                    <h1>Leetcode #6</h1>
                     
                     
-                    <h2 class="subheading"> "Longest Palindromic Substring"</h2>
+                    <h2 class="subheading"> "ZigZag Conversion"</h2>
                     
                     <span class="meta">Posted by Wei on April 14, 2019</span>
                 </div>
@@ -171,37 +171,40 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p>The hard core of programming is algorithms.</p>
+				<p>The hardest core of programming is algorithms.</p>
 
 <hr />
 
 <h3 id="description">Description</h3>
 
-<p>Given a string <strong>s</strong>, find the longest palindromic substring in <strong>s</strong>. You may assume that the maximum length of <strong>s</strong> is 1000.</p>
+<p>The string <code class="highlighter-rouge">"PAYPALISHIRING"</code> is written in a zigzag  pattern on a given number of rows like this: (you may want to display  this pattern in a fixed font for better legibility)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>P   A   H   N
+A P L S I I G
+Y   I   R
+</code></pre></div></div>
+
+<p>And then read line by line: <code class="highlighter-rouge">"PAHNAPLSIIGYIR"</code></p>
+
+<p>Write the code that will take a string and make this conversion given a number of rows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>string convert(string s, int numRows);
+</code></pre></div></div>
 
 <p><strong>Example 1:</strong></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: "babad"
-Output: "bab"
-Note: "aba" is also a valid answer.
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: s = "PAYPALISHIRING", numRows = 3
+Output: "PAHNAPLSIIGYIR"
 </code></pre></div></div>
 
 <hr />
 
 <h3 id="algorithm">Algorithm</h3>
 
-<p>Dynamic Planning:</p>
-
 <ul>
-  <li>Use inner and outer two-layer loop. In outer loop let <code class="highlighter-rouge">i</code> start from end of input string <code class="highlighter-rouge">s</code> to forwards. In inner loop let <code class="highlighter-rouge">j</code> start from <code class="highlighter-rouge">i</code> to the end.</li>
-  <li>Initialize <code class="highlighter-rouge">start</code> and <code class="highlighter-rouge">end</code> to save the index of maximal length of palindromic substring, and <code class="highlighter-rouge">maxLen</code> to save the maximal length of palindromic substring, and boolean two-dimensional array <code class="highlighter-rouge">palin</code>. If <code class="highlighter-rouge">substr(i, j-i+1)</code> is palindromic, <code class="highlighter-rouge">palin[i][j]</code> is <code class="highlighter-rouge">true</code>, otherwise <code class="highlighter-rouge">false</code>.</li>
-  <li>If <code class="highlighter-rouge">s[i]</code> == <code class="highlighter-rouge">s[j]</code>  and
-    <ul>
-      <li><code class="highlighter-rouge">j-i&lt;=2</code> , definitely <code class="highlighter-rouge">palin[i][j]</code> is <code class="highlighter-rouge">true</code>.</li>
-      <li>If <code class="highlighter-rouge">j-i&gt;2</code>, then we need to determine wether <code class="highlighter-rouge">palin[i+1][j-1]</code> is <code class="highlighter-rouge">true</code>. Because we loop from end to begin, so <code class="highlighter-rouge">palin[i+1][j-1]</code> is already set <code class="highlighter-rouge">true</code>, if it’s palindromic. Thus, we can determine in this way.</li>
-    </ul>
-  </li>
-  <li>After determination above if the current substring is palindromic, determin wether <code class="highlighter-rouge">j-i+1</code> &gt;<code class="highlighter-rouge">maxLen</code> , if yes, update <code class="highlighter-rouge">maxLen</code> and the index <code class="highlighter-rouge">start</code> and <code class="highlighter-rouge">end</code>.</li>
+  <li>If input numRows is 1, return s;</li>
+  <li>Initialize an int array <code class="highlighter-rouge">palin</code> which stands for palindrome to save the line where the correspond char in s is in after ZigZag conversion, e.g. in example <code class="highlighter-rouge">palin[0]= 0</code> because <code class="highlighter-rouge">s[0]</code>: ‘p’ is in the first line after conversion.</li>
+  <li>Find all chars in s that are in one line and assign them to string <code class="highlighter-rouge">t</code>.</li>
 </ul>
 
 <hr />
@@ -210,31 +213,63 @@ Note: "aba" is also a valid answer.
 
 <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="n">string</span> <span class="n">longestPalindrome</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">){</span>
+    <span class="n">string</span> <span class="n">convert</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">numRows</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">numRows</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">return</span> <span class="n">s</span><span class="p">;</span>
         <span class="p">}</span>
-        <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="kt">int</span> <span class="n">maxLen</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="kt">bool</span> <span class="n">palin</span><span class="p">[</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()][</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">--</span><span class="p">){</span>
-            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
-                <span class="k">if</span> <span class="p">((</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">2</span><span class="o">||</span><span class="n">palin</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">])){</span>
-                    <span class="n">palin</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="n">maxLen</span> <span class="o">&lt;</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">){</span>
-                        <span class="n">maxLen</span> <span class="o">=</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-                        <span class="n">start</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-                        <span class="n">end</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
-                    <span class="p">}</span>
+        <span class="kt">int</span> <span class="n">palin</span><span class="p">[</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()];</span>
+        <span class="n">string</span> <span class="n">t</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">palin</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">%</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">numRows</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">numRows</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">palin</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">else</span> <span class="p">{</span>
+                   <span class="n">palin</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">numRows</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="p">(</span><span class="n">numRows</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span> 
+                <span class="p">}</span>   
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">i</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="p">(</span><span class="n">numRows</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)){</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">numRows</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">palin</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">t</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
                 <span class="p">}</span>
             <span class="p">}</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">t</span><span class="p">;</span>  
     <span class="p">}</span>
 <span class="p">};</span>
 </code></pre></div></div>
 
+<hr />
+
+<h3 id="note">Note</h3>
+
+<p>At first I wrote these lines like this:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">numRows</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">palin</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">t</span><span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+                    <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</code></pre></div></div>
+
+<p>It causes an ERROR stack-buffer-overflow.</p>
+
+<p>That confused me for a long time. After changed it into <code class="highlighter-rouge">t.append(1, s[j]);</code>, it’s figured out.</p>
+
+<p>I don’t know why lol. It seems that <code class="highlighter-rouge">append</code> function takes much more less memory stacks than searching for j-th item of t.</p>
 
 
                 <hr>
@@ -244,17 +279,17 @@ Note: "aba" is also a valid answer.
                 </style>
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2019/04/14/Leetcode"
-                    data-title="Leetcode #5"
-                    data-url="http://localhost:4000/2019/04/14/Leetcode/"
+                    data-thread-key="/2019/04/14/Leetcode6"
+                    data-title="Leetcode #6"
+                    data-url="http://localhost:4000/2019/04/14/Leetcode6/"
                     data-images="http://localhost:4000/img/post-20190414.jpg"
-                    data-content="The hard core of programming is algorithms.
+                    data-content="The hardest core of programming is algorithms.
 
 
 
 Description
 
-Given a string s,... | Wei的博客 | Wei's Blog " >
+The string "PA... | Wei的博客 | Wei's Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -274,12 +309,12 @@ Given a string s,... | Wei的博客 | Wei's Blog " >
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2019/04/12/Haskell/" data-toggle="tooltip" data-placement="top" title="Haskell Note">&larr; Previous Post</a>
+                        <a href="/2019/04/14/Leetcode/" data-toggle="tooltip" data-placement="top" title="Leetcode #5">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2019/04/14/Leetcode6/" data-toggle="tooltip" data-placement="top" title="Leetcode #6">Next Post &rarr;</a>
+                        <a href="/2019/04/15/Leetcode789/" data-toggle="tooltip" data-placement="top" title="Leetcode #7&&(#8)&&(#9)">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -289,9 +324,9 @@ Given a string s,... | Wei的博客 | Wei's Blog " >
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2019/04/14/Leetcode"
-                        data-title="Leetcode #5"
-                        data-url="http://localhost:4000/2019/04/14/Leetcode/" >
+                        data-thread-key="/2019/04/14/Leetcode6"
+                        data-title="Leetcode #6"
+                        data-url="http://localhost:4000/2019/04/14/Leetcode6/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

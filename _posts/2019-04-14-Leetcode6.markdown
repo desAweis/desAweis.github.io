@@ -15,7 +15,7 @@ tags:
 
 ---
 
-The hard core of programming is algorithms.
+The hardest core of programming is algorithms.
 
 ------
 

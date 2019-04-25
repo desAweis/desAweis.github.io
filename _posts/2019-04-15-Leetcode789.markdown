@@ -170,7 +170,7 @@ Coud you solve it without converting the integer to a string?
 ### C++ code
 
 ```c++
-// #7 Reverse Integer
+// #7 Reverse Integer  
 class Solution {
 public:
     int reverse(int x) {
@@ -194,7 +194,7 @@ public:
 ```
 
 ```c++
-// #8 String to Integer
+// #8 String to Integer  
 class Solution {
 public:
     int myAtoi(string str) {
@@ -222,7 +222,7 @@ public:
 ```
 
 ```c++
-// #9 Palindrome Number
+// #9 Palindrome Number  
 class Solution {
 public:
     bool isPalindrome(int x) {

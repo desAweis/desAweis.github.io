@@ -10,9 +10,9 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.jpg">
 
-    <title>Leetcode #38 - Wei的博客 | Wei's Blog</title>
+    <title>Leetcode #53 - Wei的博客 | Wei's Blog</title>
     <!--page.title refers to title in current page -->
-    <link rel="canonical" href="http://localhost:4000/2019/04/25/Leetcode38/">
+    <link rel="canonical" href="http://localhost:4000/2019/04/29/Leetcode-53/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -148,12 +148,12 @@
                         <a class="tag" href="/tags/#Leetcode" title="Leetcode">Leetcode</a>
                         
                     </div>
-                    <h1>Leetcode #38</h1>
+                    <h1>Leetcode #53</h1>
                     
                     
-                    <h2 class="subheading"> "Count and Say(some points about function recursion and C++ reference) "</h2>
+                    <h2 class="subheading"> "Maximum Subarray"</h2>
                     
-                    <span class="meta">Posted by Wei on April 25, 2019</span>
+                    <span class="meta">Posted by Wei on April 29, 2019</span>
                 </div>
             </div>
         </div>
@@ -177,47 +177,28 @@
 
 <h3 id="description">Description</h3>
 
-<h4 id="38-count-and-say">#38 Count and Say</h4>
+<h4 id="38-maximum-subarray">#38 Maximum Subarray</h4>
 
-<p>The count-and-say sequence is the sequence of integers with the first five terms as following:</p>
+<p>Given an integer array <code class="highlighter-rouge">nums</code>, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.     1
-2.     11
-3.     21
-4.     1211
-5.     111221
+<p><strong>Example:</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: [-2,1,-3,4,-1,2,1,-5,4],
+Output: 6
+Explanation: [4,-1,2,1] has the largest sum = 6.
 </code></pre></div></div>
 
-<p><code class="highlighter-rouge">1</code> is read off as <code class="highlighter-rouge">"one 1"</code> or <code class="highlighter-rouge">11</code>.</p>
+<p><strong>Follow up:</strong></p>
 
-<p><code class="highlighter-rouge">11</code> is read off as <code class="highlighter-rouge">"two 1s"</code> or <code class="highlighter-rouge">21</code>.</p>
-
-<p><code class="highlighter-rouge">21</code> is read off as <code class="highlighter-rouge">"one 2</code>, then <code class="highlighter-rouge">one 1"</code> or <code class="highlighter-rouge">1211</code>.</p>
-
-<p>Given an integer <em>n</em> where 1 ≤ <em>n</em> ≤ 30, generate the <em>n</em>th term of the count-and-say sequence.</p>
-
-<p>Note: Each term of the sequence of integers will be represented as a string.</p>
-
-<p><strong>Example 1:</strong></p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: 1
-Output: "1"
-</code></pre></div></div>
-
-<p><strong>Example 2:</strong></p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: 4
-Output: "1211"
-</code></pre></div></div>
-
-<p><strong>Note:</strong>
-To generate the <em>n</em>th term, just <em>count and say</em> the <em>n</em>-1th term.</p>
+<p>If you have figured out the O(<em>n</em>) solution, try coding another solution using the divide and conquer approach, which is more subtle.</p>
 
 <hr />
 
 <h3 id="algorithm">Algorithm</h3>
 
-<p>Simple recursion.</p>
+<p>Dynamic Programming</p>
+
+<p>Save the maximal value before <code class="highlighter-rouge">nums[i]</code> as <code class="highlighter-rouge">dp[i-1]</code>, if <code class="highlighter-rouge">dp[i-1]</code> is negative, then ignore it, <code class="highlighter-rouge">dp[i] = nums[i]</code>, or <code class="highlighter-rouge">plus dp[i-1]</code>.</p>
 
 <hr />
 
@@ -225,24 +206,15 @@ To generate the <em>n</em>th term, just <em>count and say</em> the <em>n</em>-1t
 
 <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="n">string</span> <span class="n">countAndSay</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">string</span> <span class="n">s</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="s">"1"</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">maxSubArray</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">dp</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="n">dp</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">dp</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">?</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">:</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="p">;</span>
+            <span class="n">max</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">max</span><span class="p">);</span>
         <span class="p">}</span>
-        <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">countAndSay</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
-            <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-            <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-            <span class="k">while</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">c</span><span class="o">&amp;&amp;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
-                <span class="n">i</span><span class="o">++</span><span class="p">;</span>
-                <span class="n">j</span><span class="o">++</span><span class="p">;</span>
-            <span class="p">}</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="n">to_string</span><span class="p">(</span><span class="n">j</span><span class="p">));</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">s</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">max</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </code></pre></div></div>
@@ -252,10 +224,8 @@ To generate the <em>n</em>th term, just <em>count and say</em> the <em>n</em>-1t
 <h3 id="note">Note</h3>
 
 <ul>
-  <li>Some inner variables should be declared after calling recursion function, because in each round the inner variables may change values, so that they’re not the value we want to initialize.</li>
-  <li>It’s better to save return value of last recursion using reference, because one doesn’t need to recall function every time and reference is more safe and efficient to pass arguments.</li>
+  <li>C++ vector can’t be processed with <code class="highlighter-rouge">vector[i] = …</code>, rather use <code class="highlighter-rouge">vector.push_back()</code></li>
 </ul>
-
 
 
                 <hr>
@@ -265,9 +235,9 @@ To generate the <em>n</em>th term, just <em>count and say</em> the <em>n</em>-1t
                 </style>
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2019/04/25/Leetcode38"
-                    data-title="Leetcode #38"
-                    data-url="http://localhost:4000/2019/04/25/Leetcode38/"
+                    data-thread-key="/2019/04/29/Leetcode-#53"
+                    data-title="Leetcode #53"
+                    data-url="http://localhost:4000/2019/04/29/Leetcode-53/"
                     data-images="http://localhost:4000/img/post-20190414.jpg"
                     data-content="The hardest core of programming is algorithms.
 
@@ -275,7 +245,7 @@ To generate the <em>n</em>th term, just <em>count and say</em> the <em>n</em>-1t
 
 Description
 
-#38 Count and ... | Wei的博客 | Wei's Blog " >
+#38 Maximum Su... | Wei的博客 | Wei's Blog " >
                     <div class="ds-share-inline">
                       <ul  class="ds-share-icons-16">
                         <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -295,13 +265,9 @@ Description
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2019/04/15/Leetcode789/" data-toggle="tooltip" data-placement="top" title="Leetcode #7&&(#8)&&(#9)">&larr; Previous Post</a>
+                        <a href="/2019/04/25/Leetcode38/" data-toggle="tooltip" data-placement="top" title="Leetcode #38">&larr; Previous Post</a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2019/04/29/Leetcode-53/" data-toggle="tooltip" data-placement="top" title="Leetcode #53">Next Post &rarr;</a>
-                    </li>
                     
                 </ul>
 
@@ -310,9 +276,9 @@ Description
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2019/04/25/Leetcode38"
-                        data-title="Leetcode #38"
-                        data-url="http://localhost:4000/2019/04/25/Leetcode38/" >
+                        data-thread-key="/2019/04/29/Leetcode-#53"
+                        data-title="Leetcode #53"
+                        data-url="http://localhost:4000/2019/04/29/Leetcode-53/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
